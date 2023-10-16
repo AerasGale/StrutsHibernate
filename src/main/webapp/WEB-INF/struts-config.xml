@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config SYSTEM "https://struts.apache.org/dtds/struts-config_1_3.dtd"  >
+<struts-config>
+	<form-beans>
+		<form-bean name="saveUser" type="notadomain.aeras.web.SaveUserForm"></form-bean>
+		<form-bean name="logIn" type="notadomain.aeras.web.LogInForm"></form-bean>
+		<form-bean name="changePassword" type="notadomain.aeras.web.ChangePasswordForm"></form-bean>
+	</form-beans>
+	
+	<global-forwards>
+		<forward name="unauthorized" path="/WEB-INF/views/unauthorized.jsp"></forward>
+	</global-forwards>
+	<action-mappings>
+	
+		<action path="/home" type="notadomain.aeras.web.HomeAction">
+			<forward name="home" path="/WEB-INF/views/home.jsp"/>
+		</action>
+		
+		<!-- Registration actions  -->
+		<action path="/register" type="notadomain.aeras.web.RegisterAction">
+			<forward name="register" path="/WEB-INF/views/register.jsp"></forward>
+		</action>
+		
+		<action path="/internal/saveUser" name="saveUser" type="notadomain.aeras.web.SaveUserAction" input="/registerFailRedirect.do">
+			<forward name="registrationSuccess" path="/registrationSuccess.do" redirect="true"></forward>
+			<forward name="registrationFailure" path="/registerFailRedirect.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/registrationSuccess"
+	type="notadomain.aeras.web.RegistrationSuccessAction">
+	<forward name="registrationSuccess"
+		path="/WEB-INF/views/registrationsuccess.jsp"></forward>
+</action>
+	<action path="/registerFailRedirect"
+		type="notadomain.aeras.web.RegisterFailRedirectAction">
+		<forward name="redirect" path="/register.do" redirect="true"></forward>
+	</action>
+			
+		<!-- Login Actions -->
+		<action path="/login" type="notadomain.aeras.web.LogInAction">
+			<forward name="logIn" path="/WEB-INF/views/login.jsp"></forward>
+		</action>
+		
+		<action path="/internal/generateLoginToken" name="logIn" type="notadomain.aeras.web.GenerateLoginTokenAction" input="/loginFailRedirect.do">
+			<forward name="loginSuccess" path="/UserDashboard.do" redirect="true"></forward>
+			<forward name="loginFailure" path="/loginFailRedirect.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/loginFailRedirect" type="notadomain.aeras.web.LoginFailRedirectAction">
+			<forward name="redirect" path="/login.do" redirect="true"></forward>
+		</action>
+		
+		<!-- Actions while logged in -->
+		<action path="/UserDashboard" type="notadomain.aeras.web.UserDashboardAction">
+			<forward name="userDashboard" path="/WEB-INF/views/userdashboard.jsp"></forward>
+		</action>
+		
+		<action path="/UserDashboard/ChangePassword" type="notadomain.aeras.web.ChangePasswordAction">
+			<forward name="changePassword" path="/WEB-INF/views/changepassword.jsp"></forward>
+		</action>
+		
+		<action path="/internal/updatePassword" name="changePassword" type="notadomain.aeras.web.UpdatePasswordAction" input="/passwordChangeFailRedirect.do">
+			<forward name="updateSuccess" path="/UserDashboard.do" redirect="true"></forward>
+			<forward name="updateFail" path="/passwordChangeFailRedirect.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/passwordChangeFailRedirect" type="notadomain.aeras.web.PasswordChangeFailRedirect">
+			<forward name="redirect" path="/UserDashboard/ChangePassword.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/UserDashboard/LogOut" type="notadomain.aeras.web.LogOutAction">
+			<forward name="logOut" path="/home.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/UserDashboard/DeleteAccount" type="notadomain.aeras.web.DeleteUserAccountAction">
+			<forward name="getConfirmation" path="/WEB-INF/views/confirmdelete.jsp"></forward>
+		</action>
+		
+		<action path="/internal/confirmDelete" type="notadomain.aeras.web.ConfirmDeleteAccountAction">
+			<forward name="deleteSuccess" path="/home.do" redirect="true"></forward>
+			<forward name="deleteFail" path="/deleteFailRedirect.do" redirect="true"></forward>
+		</action>
+		
+		<action path="/deleteFailRedirect" type="noradomain.aeras.web.DeleteFailRedirect">
+			<forward name="redirect" path="/UserDashboard/DeleteAccount/do" redirect="true"></forward>
+		</action>
+		
+		<action path="/internal/cancelDelete" type="notadomain.aeras.web.CancelDeleteAction">
+			<forward name="userDashboard" path="/UserDashboard.do" redirect="true"></forward>
+		</action>
+		
+	</action-mappings>
+	<message-resources parameter="notadomain.aeras.i18n.Messages"></message-resources>
+</struts-config>

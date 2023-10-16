@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="notadomain.aeras.model.User">
+		<id name="id" type="int">
+			<generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+				<param name="sequence_name">user_seq</param>
+				<param name="initial_value">1000</param>
+				<param name="increment_size">1</param>
+			</generator>
+		</id>
+		<property name="username" type="string"></property>
+		<property name="passwordhash" type="string"></property>
+		<property name="salt" type="string"></property>
+	</class>
+</hibernate-mapping>
